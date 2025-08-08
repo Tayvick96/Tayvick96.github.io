@@ -71,7 +71,7 @@ function drawAxes() {
   ctx.save();
   ctx.translate(centerX - 60, 50);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillText("作战距离 →", 0, 0);
+  ctx.fillText("作战距离 →", centerY - 10, 0);
   ctx.restore();
 
   // 象限标签
@@ -99,13 +99,13 @@ const weapons = [
   { name: "MP7", x: 8.5, y: -9, color: "orange" },
   //T3
   { name: "AKM", x: -3, y: 1, color: "yellow" },
-  { name: "AUG", x: 8, y: 6, color: "yellow" },
+  { name: "AUG", x: 8, y: 7, color: "yellow" },
   { name: "AK-12", x: 7, y: 5, color: "yellow" },
   { name: "ASH-12", x: -9, y: 0, color: "yellow" },
   { name: "SCAR-H", x: -2, y: 2, color: "yellow" },
   //T4
   { name: "G3", x: 0, y: 6, color: "green" },
-  { name: "QBZ95-1", x: 8, y: 6, color: "green" },
+  { name: "QBZ95-1", x: 8, y: 6.5, color: "green" },
   { name: "MP5", x: 9, y: -9, color: "green" }
 ];
 
@@ -114,7 +114,37 @@ const weaponData = {
   "M4A1": [
     { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: "不值得多花一分钱改它" }
   ],
-  "SCAR-H": [
+  "M14": [
+    { name: "低改", code: "M14射手步枪-烽火地带-6H5D9D4072GLCC97UAN1F", price: "55w" },
+    { name: "满改", code: "M14射手步枪-烽火地带-6H5DA1K072GLCC97UAN1F", price: "70w" }
+  ],
+  "腾龙": [
+    { name: "烂改", code: "腾龙突击步枪-烽火地带-6H5DAG4072GLCC97UAN1F", price: "36w" },
+    { name: "满改", code: "腾龙突击步枪-烽火地带-6H5DAKC072GLCC97UAN1F", price: "50w" },
+    { name: "近距离版", code: "腾龙突击步枪-烽火地带-6H5DAO8072GLCC97UAN1F", price: "30w" }
+  ],
+  "AS VAL": [
+    { name: "低改", code: "AS Val突击步枪-烽火地带-6H5DB3S072GLCC97UAN1F", price: "30w" },
+    { name: "满改", code: "AS Val突击步枪-烽火地带-6H5DB6S072GLCC97UAN1F", price: "50w" }
+  ],
+  "SR-3M": [
+    { name: "100腰射版", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBCK072GLCC97UAN1F", price: "35w" },
+    { name: "均衡", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBNK072GLCC97UAN1F", price: "40w" },
+    { name: "这枪不适合满改", code: "改满了打中距离还是不行", price: "别多花冤枉钱了" }
+  ],
+  "M7": [
+    { name: "低改", code: "M7战斗步枪-烽火地带-6H5E6H8072GLCC97UAN1F", price: "38w" },
+    { name: "满改", code: "M7战斗步枪-烽火地带-6H5E6OG072GLCC97UAN1F", price: "50w" }
+  ],
+  "K416": [
+    { name: "低改", code: "K416突击步枪-烽火地带-6H5E75C072GLCC97UAN1F", price: "38w" },
+    { name: "满改", code: "K416突击步枪-烽火地带-6H5E80K072GLCC97UAN1F", price: "60w" }
+  ],
+  "K437": [
+    { name: "低改", code: "K437突击步枪-烽火地带-6H5E864072GLCC97UAN1F", price: "35w" },
+    { name: "满改", code: "K437突击步枪-烽火地带-6H5E8J8072GLCC97UAN1F", price: "50w" }
+  ],
+  "K416": [
     { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
     { name: "远射程型", code: "SCAR-H_LONG", price: 1000 },
     { name: "轻量化型", code: "SCAR-H_LITE", price: 850 }
