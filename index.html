@@ -91,9 +91,10 @@ const weapons = [
   { name: "M7", x: -1, y: 5, color: "orange" },
   { name: "K416", x: 4, y: -4, color: "orange" },
   { name: "K437", x: 4, y: 4, color: "orange" },
-  { name: "MP7", x: 9, y: -9, color: "orange" },
+  { name: "MP7", x: 8.5, y: -9, color: "orange" },
   //T3
   { name: "AKM", x: -3, y: 1, color: "yellow" },
+  { name: "AUG", x: 8, y: 6, color: "yellow" },
   { name: "AK-12", x: 7, y: 5, color: "yellow" },
   { name: "ASH-12", x: -9, y: 0, color: "yellow" },
   { name: "SCAR-H", x: -2, y: 2, color: "yellow" },
@@ -106,9 +107,7 @@ const weapons = [
 // 改装方案
 const weaponData = {
   "M4A1": [
-    { name: "轻型改装", code: "M4A1_LITE", price: 500 },
-    { name: "远程狙击型", code: "M4A1_SNIPER", price: 800 },
-    { name: "全能型", code: "M4A1_BALANCE", price: 650 }
+    { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: 不值得多花一分钱改它 }
   ],
   "SCAR-H": [
     { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
@@ -129,14 +128,43 @@ function logicToPixelY(y) {
 function drawWeapons() {
   weapons.forEach(w => {
     ctx.beginPath();
-    ctx.arc(logicToPixelX(w.x), logicToPixelY(w.y), 8, 0, Math.PI * 2);
-    ctx.fillStyle = w.color;
+
+    /**
+     * 绘制圆点
+     * ctx.arc(
+     *    x 坐标（逻辑坐标转像素坐标后的值）,
+     *    y 坐标（逻辑坐标转像素坐标后的值）,
+     *    半径,          // 控制圆点大小
+     *    起始角度,      // 0 表示最右侧
+     *    结束角度       // Math.PI * 2 表示完整一圈
+     * )
+     */
+    ctx.arc(
+      logicToPixelX(w.x), // X坐标：逻辑值转像素
+      logicToPixelY(w.y), // Y坐标：逻辑值转像素
+      8,                  // 圆点半径（改这里可以调整大小，比如改成 10）
+      0,
+      Math.PI * 2
+    );
+
+    /**
+     * 填充颜色
+     * ctx.fillStyle 决定圆点的内部颜色
+     */
+    ctx.fillStyle = w.color; // 比如 "red" 或 "#FF0000"
     ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 2;
+
+    /**
+     * 圆点边框
+     * ctx.strokeStyle 决定边框颜色
+     * ctx.lineWidth   决定边框粗细
+     */
+    ctx.strokeStyle = "black"; // 改这里可以换轮廓颜色
+    ctx.lineWidth = 2;        // 改这里可以调整轮廓粗细，比如 3 更粗
     ctx.stroke();
   });
 }
+
 
 // 点击事件
 canvas.addEventListener('click', e => {
