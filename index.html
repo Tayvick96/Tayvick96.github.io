@@ -31,8 +31,13 @@ const ctx = canvas.getContext('2d');
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
 
-// 逻辑坐标范围 [-10, 10]，对应像素映射
-const logicRange = 10;
+// ===== 可调参数 =====
+const logicRange = 10;                  // 逻辑坐标范围
+const pointRadius = 10;                 // 圆点半径
+const outlineColor = "#000";            // 圆点轮廓颜色
+const outlineWidth = 3;                 // 圆点轮廓粗细
+// ====================
+
 const scale = (canvas.width / 2) / logicRange; // 每单位逻辑坐标对应像素
 
 // 绘制坐标轴和象限
@@ -107,7 +112,7 @@ const weapons = [
 // 改装方案
 const weaponData = {
   "M4A1": [
-    { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: 不值得多花一分钱改它 }
+    { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: "不值得多花一分钱改它" }
   ],
   "SCAR-H": [
     { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
@@ -128,24 +133,14 @@ function logicToPixelY(y) {
 function drawWeapons() {
   weapons.forEach(w => {
     ctx.beginPath();
-
-    ctx.arc(
-      logicToPixelX(w.x), // X坐标：逻辑值转像素
-      logicToPixelY(w.y), // Y坐标：逻辑值转像素
-      8,                  // 圆点半径（改这里可以调整大小，比如改成 10）
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle = w.color; // 比如 "red" 或 "#FF0000"
+    ctx.arc(logicToPixelX(w.x), logicToPixelY(w.y), pointRadius, 0, Math.PI * 2);
+    ctx.fillStyle = w.color;
     ctx.fill();
-
-    ctx.strokeStyle = "black"; // 改这里可以换轮廓颜色
-    ctx.lineWidth = 2;        // 改这里可以调整轮廓粗细，比如 3 更粗
+    ctx.strokeStyle = outlineColor;
+    ctx.lineWidth = outlineWidth;
     ctx.stroke();
   });
 }
-
 
 // 点击事件
 canvas.addEventListener('click', e => {
@@ -156,13 +151,13 @@ canvas.addEventListener('click', e => {
   weapons.forEach(w => {
     const dx = mouseX - logicToPixelX(w.x);
     const dy = mouseY - logicToPixelY(w.y);
-    if (Math.sqrt(dx*dx + dy*dy) < 8) {
+    if (Math.sqrt(dx*dx + dy*dy) < pointRadius) {
       const mods = weaponData[w.name] || [];
       document.getElementById('weaponName').textContent = w.name;
       document.getElementById('weaponMods').innerHTML = mods.map(m => `
         <div><b>${m.name}</b></div>
         <div>代码: ${m.code}</div>
-        <div>价格: ${m.price} 元</div>
+        <div>价格: ${m.price}</div>
       `).join('<hr>');
     }
   });
