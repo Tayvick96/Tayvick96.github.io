@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <title>武器改装交互图</title>
 <style>
-  body { display: flex; font-family: sans-serif; }
+  body { 
+    display: flex; 
+    font-family: sans-serif; 
+    flex-direction: column;
+    align-items: center;
+  }
   #details {
     margin-left: 20px;
     padding: 10px;
@@ -12,16 +17,48 @@
     border: 1px solid #ccc;
     background: #fafafa;
   }
+  #content {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  #legend {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    width: 900px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    margin-right: 10px;
+  }
 </style>
 </head>
 <body>
 
-<canvas id="mapCanvas" width="900" height="900" style="border:1px solid #ccc;"></canvas>
+<div id="content">
+  <canvas id="mapCanvas" width="900" height="900" style="border:1px solid #ccc;"></canvas>
 
-<div id="details">
-  <h3>改装方案</h3>
-  <div id="weaponName">点击武器查看方案</div>
-  <div id="weaponMods"></div>
+  <div id="details">
+    <h3>改装方案</h3>
+    <div id="weaponName">点击武器查看方案</div>
+    <div id="weaponMods"></div>
+  </div>
+</div>
+
+<div id="legend">
+  <h3>武器等级图例</h3>
+  <div class="legend-item"><div class="legend-color" style="background-color: red;"></div><div>T1 - 顶级武器</div></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: orange;"></div><div>T2 - 强力武器</div></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: yellow;"></div><div>T3 - 中等武器</div></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: green;"></div><div>T4 - 基础武器</div></div>
 </div>
 
 <script>
