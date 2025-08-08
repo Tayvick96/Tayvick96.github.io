@@ -71,7 +71,7 @@ function drawAxes() {
   ctx.save();
   ctx.translate(centerX - 60, 50);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillText("作战距离 →", centerY - 10, 0);
+  ctx.fillText("作战距离 →", centerX - 10, 0);
   ctx.restore();
 
   // 象限标签
@@ -144,7 +144,11 @@ const weaponData = {
     { name: "低改", code: "K437突击步枪-烽火地带-6H5E864072GLCC97UAN1F", price: "35w" },
     { name: "满改", code: "K437突击步枪-烽火地带-6H5E8J8072GLCC97UAN1F", price: "50w" }
   ],
-  "K416": [
+  "MP7": [
+    { name: "低改", code: "MP7冲锋枪-烽火地带-6H5EA3S072GLCC97UAN1F", price: "35w" },
+    { name: "满改", code: "MP7冲锋枪-烽火地带-6H5EA7S072GLCC97UAN1F", price: "50w" }
+  ],
+  "SCAR-H": [
     { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
     { name: "远射程型", code: "SCAR-H_LONG", price: 1000 },
     { name: "轻量化型", code: "SCAR-H_LITE", price: 850 }
