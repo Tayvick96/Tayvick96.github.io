@@ -2,64 +2,15 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>武器改装交互图</title>
+<title>武器改装交互图 - Canvas</title>
 <style>
-  body {
-    display: flex;
-    font-family: sans-serif;
-  }
-  #chart {
-    position: relative;
-    width: 900px;
-    height: 900px;
-    background: url('weapon_selection.png') no-repeat center;
-    background-size: contain;
-    border: 1px solid #ccc;
-  }
-  .weapon {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-    border: 2px solid white;
-  }
-  #details {
-    margin-left: 20px;
-    padding: 10px;
-    width: 320px;
-    border: 1px solid #ccc;
-    background: #fafafa;
-  }
-  .weapon-name {
-    font-weight: bold;
-    margin-top: 10px;
-  }
+  body { display: flex; font-family: sans-serif; }
+  #details { margin-left: 20px; padding: 10px; width: 320px; border: 1px solid #ccc; background: #fafafa; }
 </style>
 </head>
 <body>
 
-<div id="chart">
-  <!-- 武器点：用百分比定位 -->
-  <div class="weapon" style="left:50%; top:50%; background:green;" data-name="M4A1"></div>
-  <div class="weapon" style="left:46%; top:40%; background:orange;" data-name="SCAR-H"></div>
-  <div class="weapon" style="left:44%; top:45%; background:orange;" data-name="AKM"></div>
-  <div class="weapon" style="left:52%; top:38%; background:orange;" data-name="G3"></div>
-  <div class="weapon" style="left:52%; top:25%; background:orange;" data-name="M7"></div>
-  <div class="weapon" style="left:60%; top:20%; background:yellow;" data-name="AUG"></div>
-  <div class="weapon" style="left:64%; top:22%; background:yellow;" data-name="QBZ95-1"></div>
-  <div class="weapon" style="left:68%; top:38%; background:orange;" data-name="K437"></div>
-  <div class="weapon" style="left:72%; top:36%; background:orange;" data-name="AK-12"></div>
-  <div class="weapon" style="left:78%; top:50%; background:red;" data-name="腾龙"></div>
-  <div class="weapon" style="left:60%; top:64%; background:orange;" data-name="K416"></div>
-  <div class="weapon" style="left:72%; top:64%; background:red;" data-name="SR-3M"></div>
-  <div class="weapon" style="left:54%; top:80%; background:green;" data-name="MP5"></div>
-  <div class="weapon" style="left:30%; top:64%; background:yellow;" data-name="ASH-12"></div>
-  <div class="weapon" style="left:26%; top:80%; background:red;" data-name="AS VAL"></div>
-  <div class="weapon" style="left:38%; top:56%; background:red;" data-name="M14"></div>
-  <div class="weapon" style="left:40%; top:30%; background:green;" data-name="KC17"></div>
-</div>
+<canvas id="mapCanvas" width="900" height="900" style="border:1px solid #ccc;"></canvas>
 
 <div id="details">
   <h3>改装方案</h3>
@@ -68,6 +19,54 @@
 </div>
 
 <script>
+const ctx = document.getElementById('mapCanvas').getContext('2d');
+
+// 背景绘制（示例：网格 + 中心圆）
+function drawBackground() {
+  ctx.fillStyle = "#eaeaea";
+  ctx.fillRect(0, 0, 900, 900);
+
+  ctx.strokeStyle = "#ccc";
+  for (let x = 0; x <= 900; x += 50) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, 900);
+    ctx.stroke();
+  }
+  for (let y = 0; y <= 900; y += 50) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(900, y);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "#999";
+  ctx.beginPath();
+  ctx.arc(450, 450, 200, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+const weapons = [
+  { name: "M4A1", x: 450, y: 450, color: "green" },
+  { name: "SCAR-H", x: 414, y: 360, color: "orange" },
+  { name: "AKM", x: 396, y: 405, color: "orange" },
+  { name: "G3", x: 468, y: 342, color: "orange" },
+  { name: "M7", x: 468, y: 225, color: "orange" }
+  // 其他武器依次添加
+];
+
+function drawWeapons() {
+  weapons.forEach(w => {
+    ctx.beginPath();
+    ctx.arc(w.x, w.y, 8, 0, Math.PI * 2);
+    ctx.fillStyle = w.color;
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+}
+
 const weaponData = {
   "M4A1": [
     { name: "轻型改装", code: "M4A1_LITE", price: 500 },
@@ -78,97 +77,33 @@ const weaponData = {
     { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
     { name: "远射程型", code: "SCAR-H_LONG", price: 1000 },
     { name: "轻量化型", code: "SCAR-H_LITE", price: 850 }
-  ],
-  "AKM": [
-    { name: "近战爆发型", code: "AKM_CLOSE", price: 600 },
-    { name: "稳定射击型", code: "AKM_STABLE", price: 750 },
-    { name: "高射速型", code: "AKM_FAST", price: 700 }
-  ],
-  "G3": [
-    { name: "精确射击型", code: "G3_PRECISION", price: 880 },
-    { name: "高射程型", code: "G3_RANGE", price: 950 },
-    { name: "低后座型", code: "G3_CONTROL", price: 920 }
-  ],
-  "M7": [
-    { name: "远程压制型", code: "M7_SUPPRESS", price: 1000 },
-    { name: "稳定射击型", code: "M7_CONTROL", price: 950 },
-    { name: "高速射击型", code: "M7_SPEED", price: 980 }
-  ],
-  "AUG": [
-    { name: "全能型", code: "AUG_BALANCE", price: 900 },
-    { name: "高速射击型", code: "AUG_SPEED", price: 950 },
-    { name: "低后座型", code: "AUG_CONTROL", price: 920 }
-  ],
-  "QBZ95-1": [
-    { name: "标准型", code: "QBZ95_STD", price: 800 },
-    { name: "轻量化型", code: "QBZ95_LITE", price: 850 },
-    { name: "精准射击型", code: "QBZ95_PRECISION", price: 880 }
-  ],
-  "K437": [
-    { name: "近战型", code: "K437_CLOSE", price: 650 },
-    { name: "稳定型", code: "K437_STABLE", price: 720 },
-    { name: "高速型", code: "K437_SPEED", price: 700 }
-  ],
-  "AK-12": [
-    { name: "全能型", code: "AK12_BALANCE", price: 900 },
-    { name: "远射程型", code: "AK12_RANGE", price: 950 },
-    { name: "精准射击型", code: "AK12_PRECISION", price: 940 }
-  ],
-  "腾龙": [
-    { name: "近战高爆发型", code: "TL_CLOSE", price: 700 },
-    { name: "低后座型", code: "TL_CONTROL", price: 750 },
-    { name: "高速射击型", code: "TL_SPEED", price: 720 }
-  ],
-  "K416": [
-    { name: "稳定型", code: "K416_STABLE", price: 850 },
-    { name: "高射速型", code: "K416_FAST", price: 900 },
-    { name: "精准型", code: "K416_PRECISION", price: 880 }
-  ],
-  "SR-3M": [
-    { name: "近战型", code: "SR3M_CLOSE", price: 620 },
-    { name: "高速射击型", code: "SR3M_SPEED", price: 680 },
-    { name: "低后座型", code: "SR3M_CONTROL", price: 660 }
-  ],
-  "MP5": [
-    { name: "稳定射击型", code: "MP5_STABLE", price: 700 },
-    { name: "高速射击型", code: "MP5_SPEED", price: 720 },
-    { name: "低后座型", code: "MP5_CONTROL", price: 680 }
-  ],
-  "ASH-12": [
-    { name: "高威力型", code: "ASH12_POWER", price: 950 },
-    { name: "稳定射击型", code: "ASH12_STABLE", price: 900 },
-    { name: "低后座型", code: "ASH12_CONTROL", price: 880 }
-  ],
-  "AS VAL": [
-    { name: "消音潜行型", code: "ASVAL_SILENT", price: 900 },
-    { name: "近战型", code: "ASVAL_CLOSE", price: 850 },
-    { name: "高速型", code: "ASVAL_SPEED", price: 880 }
-  ],
-  "M14": [
-    { name: "高精度型", code: "M14_PRECISION", price: 980 },
-    { name: "稳定射击型", code: "M14_STABLE", price: 950 },
-    { name: "高威力型", code: "M14_POWER", price: 990 }
-  ],
-  "KC17": [
-    { name: "高速射击型", code: "KC17_SPEED", price: 880 },
-    { name: "精准型", code: "KC17_PRECISION", price: 900 },
-    { name: "低后座型", code: "KC17_CONTROL", price: 870 }
   ]
 };
 
-document.querySelectorAll('.weapon').forEach(el => {
-  el.addEventListener('click', () => {
-    const name = el.getAttribute('data-name');
-    const mods = weaponData[name] || [];
-    document.getElementById('weaponName').textContent = name;
-    const modsHtml = mods.map(m => 
-      `<div class="weapon-name">${m.name}</div>
-       <div>代码: ${m.code}</div>
-       <div>价格: ${m.price} 元</div>`
-    ).join('<hr>');
-    document.getElementById('weaponMods').innerHTML = modsHtml;
+// 点击检测
+document.getElementById('mapCanvas').addEventListener('click', e => {
+  const rect = e.target.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  weapons.forEach(w => {
+    const dx = mouseX - w.x;
+    const dy = mouseY - w.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 8) {
+      const mods = weaponData[w.name] || [];
+      document.getElementById('weaponName').textContent = w.name;
+      document.getElementById('weaponMods').innerHTML = mods.map(m => `
+        <div><b>${m.name}</b></div>
+        <div>代码: ${m.code}</div>
+        <div>价格: ${m.price} 元</div>
+      `).join('<hr>');
+    }
   });
 });
+
+// 初始绘制
+drawBackground();
+drawWeapons();
 </script>
 
 </body>
