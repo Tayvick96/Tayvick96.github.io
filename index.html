@@ -2,10 +2,16 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>武器改装交互图 - Canvas</title>
+<title>武器改装交互图</title>
 <style>
   body { display: flex; font-family: sans-serif; }
-  #details { margin-left: 20px; padding: 10px; width: 320px; border: 1px solid #ccc; background: #fafafa; }
+  #details {
+    margin-left: 20px;
+    padding: 10px;
+    width: 320px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+  }
 </style>
 </head>
 <body>
@@ -19,54 +25,68 @@
 </div>
 
 <script>
-const ctx = document.getElementById('mapCanvas').getContext('2d');
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
 
-// 背景绘制（示例：网格 + 中心圆）
-function drawBackground() {
-  ctx.fillStyle = "#eaeaea";
-  ctx.fillRect(0, 0, 900, 900);
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
 
-  ctx.strokeStyle = "#ccc";
-  for (let x = 0; x <= 900; x += 50) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, 900);
-    ctx.stroke();
-  }
-  for (let y = 0; y <= 900; y += 50) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(900, y);
-    ctx.stroke();
-  }
+// 绘制坐标轴和象限
+function drawAxes() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.strokeStyle = "#999";
+  // 背景
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // 坐标轴
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 2;
+
+  // X 轴
   ctx.beginPath();
-  ctx.arc(450, 450, 200, 0, Math.PI * 2);
+  ctx.moveTo(0, centerY);
+  ctx.lineTo(canvas.width, centerY);
   ctx.stroke();
+
+  // Y 轴
+  ctx.beginPath();
+  ctx.moveTo(centerX, 0);
+  ctx.lineTo(centerX, canvas.height);
+  ctx.stroke();
+
+  // 轴标签
+  ctx.font = "20px sans-serif";
+  ctx.fillStyle = "#000";
+  ctx.textAlign = "center";
+  ctx.fillText("控枪容易程度 →", canvas.width - 100, centerY - 10);
+  ctx.save();
+  ctx.translate(centerX - 40, 100);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText("作战距离 ↑", 0, 0);
+  ctx.restore();
+
+  // 象限标签
+  ctx.font = "bold 60px sans-serif";
+  ctx.fillStyle = "rgba(200,200,200,0.5)";
+  ctx.textAlign = "center";
+  ctx.fillText("高手", centerX - 200, centerY - 200);
+  ctx.fillText("角子", centerX + 200, centerY - 200);
+  ctx.fillText("茨子", centerX - 200, centerY + 200);
+  ctx.fillText("新手", centerX + 200, centerY + 200);
 }
 
+// 武器数据（相对中心的坐标）
 const weapons = [
-  { name: "M4A1", x: 450, y: 450, color: "green" },
-  { name: "SCAR-H", x: 414, y: 360, color: "orange" },
-  { name: "AKM", x: 396, y: 405, color: "orange" },
-  { name: "G3", x: 468, y: 342, color: "orange" },
-  { name: "M7", x: 468, y: 225, color: "orange" }
-  // 其他武器依次添加
+  { name: "M4A1", x: 0, y: 0, color: "green" },
+  { name: "SCAR-H", x: -36, y: 90, color: "orange" },
+  { name: "AKM", x: -54, y: 45, color: "orange" },
+  { name: "G3", x: 18, y: 108, color: "orange" },
+  { name: "M7", x: 18, y: 225, color: "orange" }
+  // 你可以把所有武器坐标补全
 ];
 
-function drawWeapons() {
-  weapons.forEach(w => {
-    ctx.beginPath();
-    ctx.arc(w.x, w.y, 8, 0, Math.PI * 2);
-    ctx.fillStyle = w.color;
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  });
-}
-
+// 改装方案数据
 const weaponData = {
   "M4A1": [
     { name: "轻型改装", code: "M4A1_LITE", price: 500 },
@@ -80,15 +100,28 @@ const weaponData = {
   ]
 };
 
-// 点击检测
-document.getElementById('mapCanvas').addEventListener('click', e => {
-  const rect = e.target.getBoundingClientRect();
+// 绘制武器点
+function drawWeapons() {
+  weapons.forEach(w => {
+    ctx.beginPath();
+    ctx.arc(centerX + w.x, centerY - w.y, 8, 0, Math.PI * 2);
+    ctx.fillStyle = w.color;
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+}
+
+// 点击事件
+canvas.addEventListener('click', e => {
+  const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
   weapons.forEach(w => {
-    const dx = mouseX - w.x;
-    const dy = mouseY - w.y;
+    const dx = mouseX - (centerX + w.x);
+    const dy = mouseY - (centerY - w.y);
     if (Math.sqrt(dx*dx + dy*dy) < 8) {
       const mods = weaponData[w.name] || [];
       document.getElementById('weaponName').textContent = w.name;
@@ -101,8 +134,8 @@ document.getElementById('mapCanvas').addEventListener('click', e => {
   });
 });
 
-// 初始绘制
-drawBackground();
+// 初始化
+drawAxes();
 drawWeapons();
 </script>
 
