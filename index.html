@@ -1,11 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>欢迎来到我的个人网站</title>
+<meta charset="UTF-8">
+<title>武器改装交互图</title>
+<style>
+  body {
+    display: flex;
+    font-family: sans-serif;
+  }
+  #chart {
+    position: relative;
+    width: 900px;
+    height: 900px;
+    background: url('weapon_selection.png') no-repeat center;
+    background-size: contain;
+    border: 1px solid #ccc;
+  }
+  .weapon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    border: 2px solid white;
+  }
+  #details {
+    margin-left: 20px;
+    padding: 10px;
+    width: 320px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+  }
+  .weapon-name {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+</style>
 </head>
 <body>
-  <h1>你好，我是Tayvick</h1>
-  <p>这是我的个人主页，正在建设中。</p>
+
+<div id="chart">
+  <!-- 武器点：用百分比定位 -->
+  <div class="weapon" style="left:50%; top:50%; background:green;" data-name="M4A1"></div>
+  <div class="weapon" style="left:46%; top:40%; background:orange;" data-name="SCAR-H"></div>
+  <div class="weapon" style="left:44%; top:45%; background:orange;" data-name="AKM"></div>
+  <div class="weapon" style="left:52%; top:38%; background:orange;" data-name="G3"></div>
+  <div class="weapon" style="left:52%; top:25%; background:orange;" data-name="M7"></div>
+  <div class="weapon" style="left:60%; top:20%; background:yellow;" data-name="AUG"></div>
+  <div class="weapon" style="left:64%; top:22%; background:yellow;" data-name="QBZ95-1"></div>
+  <div class="weapon" style="left:68%; top:38%; background:orange;" data-name="K437"></div>
+  <div class="weapon" style="left:72%; top:36%; background:orange;" data-name="AK-12"></div>
+  <div class="weapon" style="left:78%; top:50%; background:red;" data-name="腾龙"></div>
+  <div class="weapon" style="left:60%; top:64%; background:orange;" data-name="K416"></div>
+  <div class="weapon" style="left:72%; top:64%; background:red;" data-name="SR-3M"></div>
+  <div class="weapon" style="left:54%; top:80%; background:green;" data-name="MP5"></div>
+  <div class="weapon" style="left:30%; top:64%; background:yellow;" data-name="ASH-12"></div>
+  <div class="weapon" style="left:26%; top:80%; background:red;" data-name="AS VAL"></div>
+  <div class="weapon" style="left:38%; top:56%; background:red;" data-name="M14"></div>
+  <div class="weapon" style="left:40%; top:30%; background:green;" data-name="KC17"></div>
+</div>
+
+<div id="details">
+  <h3>改装方案</h3>
+  <div id="weaponName">点击武器查看方案</div>
+  <div id="weaponMods"></div>
+</div>
+
+<script>
+const weaponData = {
+  "M4A1": [
+    { name: "轻型改装", code: "M4A1_LITE", price: 500 },
+    { name: "远程狙击型", code: "M4A1_SNIPER", price: 800 },
+    { name: "全能型", code: "M4A1_BALANCE", price: 650 }
+  ],
+  "SCAR-H": [
+    { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
+    { name: "远射程型", code: "SCAR-H_LONG", price: 1000 },
+    { name: "轻量化型", code: "SCAR-H_LITE", price: 850 }
+  ],
+  "AKM": [
+    { name: "近战爆发型", code: "AKM_CLOSE", price: 600 },
+    { name: "稳定射击型", code: "AKM_STABLE", price: 750 },
+    { name: "高射速型", code: "AKM_FAST", price: 700 }
+  ],
+  "G3": [
+    { name: "精确射击型", code: "G3_PRECISION", price: 880 },
+    { name: "高射程型", code: "G3_RANGE", price: 950 },
+    { name: "低后座型", code: "G3_CONTROL", price: 920 }
+  ],
+  "M7": [
+    { name: "远程压制型", code: "M7_SUPPRESS", price: 1000 },
+    { name: "稳定射击型", code: "M7_CONTROL", price: 950 },
+    { name: "高速射击型", code: "M7_SPEED", price: 980 }
+  ],
+  "AUG": [
+    { name: "全能型", code: "AUG_BALANCE", price: 900 },
+    { name: "高速射击型", code: "AUG_SPEED", price: 950 },
+    { name: "低后座型", code: "AUG_CONTROL", price: 920 }
+  ],
+  "QBZ95-1": [
+    { name: "标准型", code: "QBZ95_STD", price: 800 },
+    { name: "轻量化型", code: "QBZ95_LITE", price: 850 },
+    { name: "精准射击型", code: "QBZ95_PRECISION", price: 880 }
+  ],
+  "K437": [
+    { name: "近战型", code: "K437_CLOSE", price: 650 },
+    { name: "稳定型", code: "K437_STABLE", price: 720 },
+    { name: "高速型", code: "K437_SPEED", price: 700 }
+  ],
+  "AK-12": [
+    { name: "全能型", code: "AK12_BALANCE", price: 900 },
+    { name: "远射程型", code: "AK12_RANGE", price: 950 },
+    { name: "精准射击型", code: "AK12_PRECISION", price: 940 }
+  ],
+  "腾龙": [
+    { name: "近战高爆发型", code: "TL_CLOSE", price: 700 },
+    { name: "低后座型", code: "TL_CONTROL", price: 750 },
+    { name: "高速射击型", code: "TL_SPEED", price: 720 }
+  ],
+  "K416": [
+    { name: "稳定型", code: "K416_STABLE", price: 850 },
+    { name: "高射速型", code: "K416_FAST", price: 900 },
+    { name: "精准型", code: "K416_PRECISION", price: 880 }
+  ],
+  "SR-3M": [
+    { name: "近战型", code: "SR3M_CLOSE", price: 620 },
+    { name: "高速射击型", code: "SR3M_SPEED", price: 680 },
+    { name: "低后座型", code: "SR3M_CONTROL", price: 660 }
+  ],
+  "MP5": [
+    { name: "稳定射击型", code: "MP5_STABLE", price: 700 },
+    { name: "高速射击型", code: "MP5_SPEED", price: 720 },
+    { name: "低后座型", code: "MP5_CONTROL", price: 680 }
+  ],
+  "ASH-12": [
+    { name: "高威力型", code: "ASH12_POWER", price: 950 },
+    { name: "稳定射击型", code: "ASH12_STABLE", price: 900 },
+    { name: "低后座型", code: "ASH12_CONTROL", price: 880 }
+  ],
+  "AS VAL": [
+    { name: "消音潜行型", code: "ASVAL_SILENT", price: 900 },
+    { name: "近战型", code: "ASVAL_CLOSE", price: 850 },
+    { name: "高速型", code: "ASVAL_SPEED", price: 880 }
+  ],
+  "M14": [
+    { name: "高精度型", code: "M14_PRECISION", price: 980 },
+    { name: "稳定射击型", code: "M14_STABLE", price: 950 },
+    { name: "高威力型", code: "M14_POWER", price: 990 }
+  ],
+  "KC17": [
+    { name: "高速射击型", code: "KC17_SPEED", price: 880 },
+    { name: "精准型", code: "KC17_PRECISION", price: 900 },
+    { name: "低后座型", code: "KC17_CONTROL", price: 870 }
+  ]
+};
+
+document.querySelectorAll('.weapon').forEach(el => {
+  el.addEventListener('click', () => {
+    const name = el.getAttribute('data-name');
+    const mods = weaponData[name] || [];
+    document.getElementById('weaponName').textContent = name;
+    const modsHtml = mods.map(m => 
+      `<div class="weapon-name">${m.name}</div>
+       <div>代码: ${m.code}</div>
+       <div>价格: ${m.price} 元</div>`
+    ).join('<hr>');
+    document.getElementById('weaponMods').innerHTML = modsHtml;
+  });
+});
+</script>
+
 </body>
 </html>
