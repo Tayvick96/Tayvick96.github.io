@@ -129,16 +129,6 @@ function drawWeapons() {
   weapons.forEach(w => {
     ctx.beginPath();
 
-    /**
-     * 绘制圆点
-     * ctx.arc(
-     *    x 坐标（逻辑坐标转像素坐标后的值）,
-     *    y 坐标（逻辑坐标转像素坐标后的值）,
-     *    半径,          // 控制圆点大小
-     *    起始角度,      // 0 表示最右侧
-     *    结束角度       // Math.PI * 2 表示完整一圈
-     * )
-     */
     ctx.arc(
       logicToPixelX(w.x), // X坐标：逻辑值转像素
       logicToPixelY(w.y), // Y坐标：逻辑值转像素
@@ -147,18 +137,9 @@ function drawWeapons() {
       Math.PI * 2
     );
 
-    /**
-     * 填充颜色
-     * ctx.fillStyle 决定圆点的内部颜色
-     */
     ctx.fillStyle = w.color; // 比如 "red" 或 "#FF0000"
     ctx.fill();
 
-    /**
-     * 圆点边框
-     * ctx.strokeStyle 决定边框颜色
-     * ctx.lineWidth   决定边框粗细
-     */
     ctx.strokeStyle = "black"; // 改这里可以换轮廓颜色
     ctx.lineWidth = 2;        // 改这里可以调整轮廓粗细，比如 3 更粗
     ctx.stroke();
