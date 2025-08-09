@@ -138,11 +138,12 @@ const weapons = [
   //T3
   { name: "AKM", x: -3, y: 1, color: "yellow" },
   { name: "AUG", x: 8, y: 7, color: "yellow" },
-  { name: "AK-12", x: 7, y: 5, color: "yellow" },
+  { name: "AK-12", x: 5, y: 5, color: "yellow" },
+  { name: "KC-17", x: -2, y: 5, color: "yellow" },
   { name: "ASH-12", x: -9, y: 0, color: "yellow" },
   { name: "SCAR-H", x: -2, y: 2, color: "yellow" },
   //T4
-  { name: "G3", x: 0, y: 6, color: "green" },
+  { name: "G3", x: 0, y: 7.5, color: "green" },
   { name: "QBZ95-1", x: 8, y: 6.5, color: "green" },
   { name: "MP5", x: 9, y: -7, color: "green" }
 ];
@@ -152,6 +153,7 @@ const weaponData = {
   "M4A1": [
     { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: "不值得多花一分钱改它" }
   ],
+  //T1
   "M14": [
     { name: "低改", code: "M14射手步枪-烽火地带-6H5D9D4072GLCC97UAN1F", price: "55w" },
     { name: "满改", code: "M14射手步枪-烽火地带-6H5DA1K072GLCC97UAN1F", price: "70w" }
@@ -170,6 +172,7 @@ const weaponData = {
     { name: "均衡", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBNK072GLCC97UAN1F", price: "40w" },
     { name: "这枪不适合满改", code: "改满了打中距离还是不行", price: "别多花冤枉钱了" }
   ],
+  //T2
   "M7": [
     { name: "低改", code: "M7战斗步枪-烽火地带-6H5E6H8072GLCC97UAN1F", price: "38w" },
     { name: "满改", code: "M7战斗步枪-烽火地带-6H5E6OG072GLCC97UAN1F", price: "50w" }
@@ -186,10 +189,41 @@ const weaponData = {
     { name: "低改", code: "MP7冲锋枪-烽火地带-6H5EA3S072GLCC97UAN1F", price: "35w" },
     { name: "满改", code: "MP7冲锋枪-烽火地带-6H5EA7S072GLCC97UAN1F", price: "50w" }
   ],
+  //T3
+  "AKM": [
+    { name: "GO学长版", code: "AKM突击步枪-烽火地带-6H5OBTG072GLCC97UAN1F", price: "22w" },
+    { name: "先进后座力系统", code: "AKM突击步枪-烽火地带-6H5OB0C072GLCC97UAN1F", price: "27w" },
+    { name: "传统版", code: "AKM突击步枪-烽火地带-6GU3CPK072GLCC97UAN1F", price: "30w" }
+  ],
+  "AUG": [
+    { name: "低改三倍镜集成枪管", code: "AUG突击步枪-烽火地带-6H5OC8C072GLCC97UAN1F", price: "27w" },
+    { name: "低改一体消音枪管", code: "AUG突击步枪-烽火地带-6GU3DFG072GLCC97UAN1F", price: "30w" }
+  ],
+  "AK-12": [
+    { name: "腰射版", code: "AK-12突击步枪-烽火地带-6H5OCKC072GLCC97UAN1F", price: "33w" },
+    { name: "均衡版", code: "AK-12突击步枪-烽火地带-6H5OCPO072GLCC97UAN1F", price: "30w" }
+  ],
+  "KC-17": [
+    { name: "低改", code: "KC17突击步枪-烽火地带-6H5O9JG072GLCC97UAN1F", price: "30w" }
+  ],
+  "ASH-12": [
+    { name: "野狗凑监狱战备用的", code: "ASh-12战斗步枪-烽火地带-6H5OD4S072GLCC97UAN1F", price: "33w" },
+    { name: "满改", code: "ASh-12战斗步枪-烽火地带-6H5OD8K072GLCC97UAN1F", price: "58w" }
+  ],
   "SCAR-H": [
-    { name: "高威力型", code: "SCAR-H_POWER", price: 900 },
-    { name: "远射程型", code: "SCAR-H_LONG", price: 1000 },
-    { name: "轻量化型", code: "SCAR-H_LITE", price: 850 }
+    { name: "低低低低改", code: "SCAR-H战斗步枪-烽火地带-6H5ODH0072GLCC97UAN1F", price: "20w" }
+  ],
+  //T4
+  "G3": [
+    { name: "低改", code: "G3战斗步枪-烽火地带-6H5ODPO072GLCC97UAN1F", price: "18w" }
+  ],
+  "QBZ95-1": [
+    { name: "10w机密究极丐版之打不死人别赖我", code: "QBZ95-1突击步枪-烽火地带-6H5GR08072GLCC97UAN1F", price: "9.8w" },
+    { name: "半改（完美！）", code: "QBZ95-1突击步枪-烽火地带-6H5OEL8072GLCC97UAN1F", price: "15w" },
+    { name: "满改（豪华大排档）", code: "QBZ95-1突击步枪-烽火地带-6H5OEFC072GLCC97UAN1F", price: "30w" }
+  ],
+  "MP5": [
+    { name: "腰射", code: "MP5冲锋枪-烽火地带-6GU3CU8072GLCC97UAN1F", price: "12w" }
   ]
 };
 
