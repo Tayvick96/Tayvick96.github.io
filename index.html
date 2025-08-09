@@ -73,6 +73,7 @@ const logicRange = 10;                  // 逻辑坐标范围
 const pointRadius = 10;                 // 圆点半径
 const outlineColor = "#000";            // 圆点轮廓颜色
 const outlineWidth = 3;                 // 圆点轮廓粗细
+const labelOffset = 15;                 // 名称标签与点的水平偏移量
 // ====================
 
 const scale = (canvas.width / 2) / logicRange; // 每单位逻辑坐标对应像素
@@ -203,13 +204,24 @@ function logicToPixelY(y) {
 // 绘制武器点
 function drawWeapons() {
   weapons.forEach(w => {
+    const pixelX = logicToPixelX(w.x);
+    const pixelY = logicToPixelY(w.y);
+    
+    // 绘制圆点
     ctx.beginPath();
-    ctx.arc(logicToPixelX(w.x), logicToPixelY(w.y), pointRadius, 0, Math.PI * 2);
+    ctx.arc(pixelX, pixelY, pointRadius, 0, Math.PI * 2);
     ctx.fillStyle = w.color;
     ctx.fill();
     ctx.strokeStyle = outlineColor;
     ctx.lineWidth = outlineWidth;
     ctx.stroke();
+    
+    // 绘制武器名称标签
+    ctx.font = "14px sans-serif";
+    ctx.fillStyle = "#000";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(w.name, pixelX + labelOffset, pixelY);
   });
 }
 
