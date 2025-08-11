@@ -39,6 +39,13 @@
     border: 2px solid #000;
     margin-right: 10px;
   }
+  #weaponComment {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -50,6 +57,7 @@
     <h3>改装方案</h3>
     <div id="weaponName">点击武器查看方案</div>
     <div id="weaponMods"></div>
+    <div id="weaponComment"></div>
   </div>
 </div>
 
@@ -132,14 +140,14 @@ const weapons = [
   { name: "SR-3M", x: 5, y: -6, color: "red" },
   //T2
   { name: "M7", x: -1, y: 5, color: "orange" },
-  { name: "K416", x: 4, y: -2, color: "orange" },
+  { name: "K416", x: 4, y: -4, color: "orange" },
   { name: "K437", x: 4, y: 4, color: "orange" },
   { name: "MP7", x: 7, y: -9, color: "orange" },
   //T3
   { name: "AKM", x: -3, y: 1, color: "yellow" },
   { name: "AUG", x: 8, y: 7, color: "yellow" },
   { name: "AK-12", x: 5, y: 5, color: "yellow" },
-  { name: "KC-17", x: -3.5, y: 4.5, color: "yellow" },
+  { name: "KC-17", x: -2, y: 5, color: "yellow" },
   { name: "ASH-12", x: -9, y: 0, color: "yellow" },
   { name: "SCAR-H", x: -2, y: 2, color: "yellow" },
   //T4
@@ -148,83 +156,137 @@ const weapons = [
   { name: "MP5", x: 9, y: -7, color: "green" }
 ];
 
-// 改装方案
+// 改装方案和评语
 const weaponData = {
-  "M4A1": [
-    { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: "不值得多花一分钱改它" }
-  ],
+  "M4A1": {
+    comment: "伤害不足，准心乱跳。垃圾中的战斗机，新手教学用枪。",
+    mods: [
+      { name: "屎枪一把，纯粹做锚点用", code: "不值得多花一分钟用它", price: "不值得多花一分钱改它" }
+    ]
+  },
   //T1
-  "M14": [
-    { name: "低改", code: "M14射手步枪-烽火地带-6H5D9D4072GLCC97UAN1F", price: "55w" },
-    { name: "满改", code: "M14射手步枪-烽火地带-6H5DA1K072GLCC97UAN1F", price: "70w" }
-  ],
-  "腾龙": [
-    { name: "烂改", code: "腾龙突击步枪-烽火地带-6H5DAG4072GLCC97UAN1F", price: "36w" },
-    { name: "满改", code: "腾龙突击步枪-烽火地带-6H5DAKC072GLCC97UAN1F", price: "50w" },
-    { name: "近距离版", code: "腾龙突击步枪-烽火地带-6H5DAO8072GLCC97UAN1F", price: "30w" }
-  ],
-  "AS VAL": [
-    { name: "低改", code: "AS Val突击步枪-烽火地带-6H5DB3S072GLCC97UAN1F", price: "30w" },
-    { name: "满改", code: "AS Val突击步枪-烽火地带-6H5DB6S072GLCC97UAN1F", price: "50w" }
-  ],
-  "SR-3M": [
-    { name: "100腰射版", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBCK072GLCC97UAN1F", price: "35w" },
-    { name: "均衡", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBNK072GLCC97UAN1F", price: "40w" },
-    { name: "这枪不适合满改", code: "改满了打中距离还是不行", price: "别多花冤枉钱了" }
-  ],
+  "M14": {
+    comment: "伤害足够，但是射程是假的，打中距离稳定性不足。目前操控速度被削弱，强度明显降低。",
+    mods: [
+      { name: "低改", code: "M14射手步枪-烽火地带-6H5D9D4072GLCC97UAN1F", price: "55w" },
+      { name: "满改", code: "M14射手步枪-烽火地带-6H5DA1K072GLCC97UAN1F", price: "70w" }
+    ]
+  },
+  "腾龙": {
+    comment: "版本的王，策划爱国之作，好用爱用。两枪爆头，小口径之王。",
+    mods: [
+      { name: "烂改", code: "腾龙突击步枪-烽火地带-6H5DAG4072GLCC97UAN1F", price: "36w" },
+      { name: "满改", code: "腾龙突击步枪-烽火地带-6H5DAKC072GLCC97UAN1F", price: "50w" },
+      { name: "近距离版", code: "腾龙突击步枪-烽火地带-6H5DAO8072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "AS VAL": {
+    comment: "近距离俘虏任何武器，究极融甲枪。难操控，中距离开始变弱，适合有控枪能力的高手。",
+    mods: [
+      { name: "低改", code: "AS Val突击步枪-烽火地带-6H5DB3S072GLCC97UAN1F", price: "30w" },
+      { name: "满改", code: "AS Val突击步枪-烽火地带-6H5DB6S072GLCC97UAN1F", price: "50w" }
+    ]
+  },
+  "SR-3M": {
+    comment: "高额伤害让他衰减后还能和T2武器掰掰腕子，同时在近距离除了大爹枪以外都能有优势，并且腰射没有被削弱，双伤很高，控枪难度也低，非常推荐进阶新手使用。",
+    mods: [
+      { name: "100腰射版", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBCK072GLCC97UAN1F", price: "35w" },
+      { name: "均衡", code: "SR-3M紧凑突击步枪-烽火地带-6H5DBNK072GLCC97UAN1F", price: "40w" },
+      { name: "这枪不适合满改", code: "改满了打中距离还是不行", price: "别多花冤枉钱了" }
+    ]
+  },
   //T2
-  "M7": [
-    { name: "低改", code: "M7战斗步枪-烽火地带-6H5E6H8072GLCC97UAN1F", price: "38w" },
-    { name: "满改", code: "M7战斗步枪-烽火地带-6H5E6OG072GLCC97UAN1F", price: "50w" }
-  ],
-  "K416": [
-    { name: "低改", code: "K416突击步枪-烽火地带-6H5E75C072GLCC97UAN1F", price: "38w" },
-    { name: "满改", code: "K416突击步枪-烽火地带-6H5E80K072GLCC97UAN1F", price: "60w" }
-  ],
-  "K437": [
-    { name: "低改", code: "K437突击步枪-烽火地带-6H5E864072GLCC97UAN1F", price: "35w" },
-    { name: "满改", code: "K437突击步枪-烽火地带-6H5E8J8072GLCC97UAN1F", price: "50w" }
-  ],
-  "MP7": [
-    { name: "低改", code: "MP7冲锋枪-烽火地带-6H5EA3S072GLCC97UAN1F", price: "35w" },
-    { name: "满改", code: "MP7冲锋枪-烽火地带-6H5EA7S072GLCC97UAN1F", price: "50w" }
-  ],
+  "M7": {
+    comment: "加强后中远距离伤害可观，最大问题是贴脸打不过的枪太多了，射速硬伤，实在摸不到T1。",
+    mods: [
+      { name: "低改", code: "M7战斗步枪-烽火地带-6H5E6H8072GLCC97UAN1F", price: "38w" },
+      { name: "满改", code: "M7战斗步枪-烽火地带-6H5E6OG072GLCC97UAN1F", price: "50w" }
+    ]
+  },
+  "K416": {
+    comment: "稳定性高，改法多样，配件丰富，适合新手进阶。近距离面对优势武器有一战之力，同时半改方案也能在中距离作战中有发挥，满改更是能全距离通吃。",
+    mods: [
+      { name: "低改", code: "K416突击步枪-烽火地带-6H5E75C072GLCC97UAN1F", price: "38w" },
+      { name: "满改", code: "K416突击步枪-烽火地带-6H5E80K072GLCC97UAN1F", price: "60w" }
+    ]
+  },
+  "K437": {
+    comment: "传奇不耐削王。操控削了以后据枪和后坐力都要牺牲，建议高改。低改的优势区间太小了。",
+    mods: [
+      { name: "低改", code: "K437突击步枪-烽火地带-6H5E864072GLCC97UAN1F", price: "35w" },
+      { name: "满改", code: "K437突击步枪-烽火地带-6H5E8J8072GLCC97UAN1F", price: "50w" }
+    ]
+  },
+  "MP7": {
+    comment: "近战永远的爹，削了腰射一样碾碎一切。当前版本更推荐兼顾腰射的中距离改法，但问题是满改成本略高，并且中远距离实在太弱势，配合狙击双枪成本更高了，因此放在T2推荐。",
+    mods: [
+      { name: "低改", code: "MP7冲锋枪-烽火地带-6H5EA3S072GLCC97UAN1F", price: "35w" },
+      { name: "满改", code: "MP7冲锋枪-烽火地带-6H5EA7S072GLCC97UAN1F", price: "50w" }
+    ]
+  },
   //T3
-  "AKM": [
-    { name: "GO学长版", code: "AKM突击步枪-烽火地带-6H5OBTG072GLCC97UAN1F", price: "22w" },
-    { name: "先进后座力系统", code: "AKM突击步枪-烽火地带-6H5OB0C072GLCC97UAN1F", price: "27w" },
-    { name: "传统版", code: "AKM突击步枪-烽火地带-6GU3CPK072GLCC97UAN1F", price: "30w" }
-  ],
-  "AUG": [
-    { name: "低改三倍镜集成枪管", code: "AUG突击步枪-烽火地带-6H5OC8C072GLCC97UAN1F", price: "27w" },
-    { name: "低改一体消音枪管", code: "AUG突击步枪-烽火地带-6GU3DFG072GLCC97UAN1F", price: "30w" }
-  ],
-  "AK-12": [
-    { name: "腰射版", code: "AK-12突击步枪-烽火地带-6H5OCKC072GLCC97UAN1F", price: "33w" },
-    { name: "均衡版", code: "AK-12突击步枪-烽火地带-6H5OCPO072GLCC97UAN1F", price: "30w" }
-  ],
-  "KC-17": [
-    { name: "低改", code: "KC17突击步枪-烽火地带-6H5O9JG072GLCC97UAN1F", price: "30w" }
-  ],
-  "ASH-12": [
-    { name: "野狗凑监狱战备用的", code: "ASh-12战斗步枪-烽火地带-6H5OD4S072GLCC97UAN1F", price: "33w" },
-    { name: "满改", code: "ASh-12战斗步枪-烽火地带-6H5OD8K072GLCC97UAN1F", price: "58w" }
-  ],
-  "SCAR-H": [
-    { name: "低低低低改", code: "SCAR-H战斗步枪-烽火地带-6H5ODH0072GLCC97UAN1F", price: "20w" }
-  ],
+  "AKM": {
+    comment: "我不知道谁在吹，谁爱用谁用。射速太满，稳定性又太差，近战打不过，对枪对不过。但是改枪实在便宜，推荐传统版本，新版本的两个枪管都是CJB。",
+    mods: [
+      { name: "GO学长版", code: "AKM突击步枪-烽火地带-6H5OBTG072GLCC97UAN1F", price: "22w" },
+      { name: "先进后座力系统", code: "AKM突击步枪-烽火地带-6H5OB0C072GLCC97UAN1F", price: "27w" },
+      { name: "传统版", code: "AKM突击步枪-烽火地带-6GU3CPK072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "AUG": {
+    comment: "宝宝巴士。稳定性好，低成本享受中远距离优势。但是中远距离对枪破甲能力又太差了。",
+    mods: [
+      { name: "低改三倍镜集成枪管", code: "AUG突击步枪-烽火地带-6H5OC8C072GLCC97UAN1F", price: "27w" },
+      { name: "低改一体消音枪管", code: "AUG突击步枪-烽火地带-6GU3DFG072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "AK-12": {
+    comment: "高破甲，不错的射速和低成本的改装方案，但是肉伤太低太低实在没法用。",
+    mods: [
+      { name: "腰射版", code: "AK-12突击步枪-烽火地带-6H5OCKC072GLCC97UAN1F", price: "33w" },
+      { name: "均衡版", code: "AK-12突击步枪-烽火地带-6H5OCPO072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "KC-17": {
+    comment: "跟AK12一样，30的肉伤实在太烂了。",
+    mods: [
+      { name: "低改", code: "KC17突击步枪-烽火地带-6H5O9JG072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "ASH-12": {
+    comment: "你会玩这就是T1，你不会玩这就是垃圾。巨高的单发伤害，但是超烂的稳定性。",
+    mods: [
+      { name: "野狗凑监狱战备用的", code: "ASh-12战斗步枪-烽火地带-6H5OD4S072GLCC97UAN1F", price: "33w" },
+      { name: "满改", code: "ASh-12战斗步枪-烽火地带-6H5OD8K072GLCC97UAN1F", price: "58w" }
+    ]
+  },
+  "SCAR-H": {
+    comment: "M14的李鬼，AK的弟弟。",
+    mods: [
+      { name: "低低低低改", code: "SCAR-H战斗步枪-烽火地带-6H5ODH0072GLCC97UAN1F", price: "20w" }
+    ]
+  },
   //T4
-  "G3": [
-    { name: "低改", code: "G3战斗步枪-烽火地带-6H5ODPO072GLCC97UAN1F", price: "18w" }
-  ],
-  "QBZ95-1": [
-    { name: "10w机密究极丐版之打不死人别赖我", code: "QBZ95-1突击步枪-烽火地带-6H5GR08072GLCC97UAN1F", price: "9.8w" },
-    { name: "半改（完美！）", code: "QBZ95-1突击步枪-烽火地带-6H5OEL8072GLCC97UAN1F", price: "15w" },
-    { name: "满改（豪华大排档）", code: "QBZ95-1突击步枪-烽火地带-6H5OEFC072GLCC97UAN1F", price: "30w" }
-  ],
-  "MP5": [
-    { name: "腰射", code: "MP5冲锋枪-烽火地带-6GU3CU8072GLCC97UAN1F", price: "12w" }
-  ]
+  "G3": {
+    comment: "20w的枪让你中远距离不虚任何步枪。什么？对面贴了？那我先把子弹塞裤裆里。",
+    mods: [
+      { name: "低改", code: "G3战斗步枪-烽火地带-6H5ODPO072GLCC97UAN1F", price: "18w" }
+    ]
+  },
+  "QBZ95-1": {
+    comment: "便宜版的AK12，还有爆头增伤，实在想不出有什么黑点。问就是20w满改。",
+    mods: [
+      { name: "10w机密究极丐版之打不死人别赖我", code: "QBZ95-1突击步枪-烽火地带-6H5GR08072GLCC97UAN1F", price: "9.8w" },
+      { name: "半改（完美！）", code: "QBZ95-1突击步枪-烽火地带-6H5OEL8072GLCC97UAN1F", price: "15w" },
+      { name: "满改（超豪华版本）", code: "QBZ95-1突击步枪-烽火地带-6H5OEFC072GLCC97UAN1F", price: "30w" }
+    ]
+  },
+  "MP5": {
+    comment: "10w最强腰射机密枪。只要不碰5甲，它就是爹。",
+    mods: [
+      { name: "腰射", code: "MP5冲锋枪-烽火地带-6GU3CU8072GLCC97UAN1F", price: "12w" }
+    ]
+  }
 };
 
 // 逻辑坐标转像素坐标
@@ -269,8 +331,11 @@ canvas.addEventListener('click', e => {
     const dx = mouseX - logicToPixelX(w.x);
     const dy = mouseY - logicToPixelY(w.y);
     if (Math.sqrt(dx*dx + dy*dy) < pointRadius) {
-      const mods = weaponData[w.name] || [];
+      const data = weaponData[w.name] || {};
+      const mods = data.mods || [];
+      
       document.getElementById('weaponName').textContent = w.name;
+      document.getElementById('weaponComment').textContent = data.comment || "暂无评价";
       document.getElementById('weaponMods').innerHTML = mods.map(m => `
         <div><b>${m.name}</b></div>
         <div>代码: ${m.code}</div>
